@@ -1,0 +1,131 @@
+/* Chatbot Styles */
+#chatbot-container {
+    transition: all 0.3s ease;
+}
+
+#chatbot-box {
+    animation: slideIn 0.3s ease-out;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.chat-message.user .d-inline-block {
+    border-radius: 15px 15px 0 15px !important;
+}
+
+.chat-message.bot .d-inline-block {
+    border-radius: 15px 15px 15px 0 !important;
+}
+
+#chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #bbb;
+}
+
+/* Typing animation */
+.chat-message.typing .d-inline-block {
+    padding: 8px 15px !important;
+}
+
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --light-bg: #f8f9fa;
+    --white: #ffffff;
+}
+
+body {
+    background-color: var(--light-bg);
+    color: #333;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: var(--primary-color) !important;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background-color: var(--white);
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.badge {
+    padding: 6px 12px;
+    font-weight: 500;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #e9ecef 0%, #ffffff 100%);
+    border-radius: 20px;
+    margin-bottom: 30px;
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+.list-group-item {
+    border-left: none;
+    border-right: none;
+    padding: 15px 0;
+}
+
+.list-group-item:first-child {
+    border-top: none;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}

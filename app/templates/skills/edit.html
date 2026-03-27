@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card p-4 shadow-sm">
+            <h2 class="mb-4 text-center">Edit Skill</h2>
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Skill Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ skill.name }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    <select class="form-select" id="category" name="category" required>
+                        <option value="Technical" {% if skill.category=='Technical' %}selected{% endif %}>Technical
+                            (Coding, Data, Engineering)</option>
+                        <option value="Creative" {% if skill.category=='Creative' %}selected{% endif %}>Creative
+                            (Design, Music, Arts)</option>
+                        <option value="Language" {% if skill.category=='Language' %}selected{% endif %}>Language
+                            (English, Spanish, French)</option>
+                        <option value="Business" {% if skill.category=='Business' %}selected{% endif %}>Business
+                            (Marketing, Sales, Finance)</option>
+                        <option value="Lifestyle" {% if skill.category=='Lifestyle' %}selected{% endif %}>Lifestyle
+                            (Cooking, Fitness, DIY)</option>
+                        <option value="Other" {% if skill.category=='Other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Skill Type</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="skill_type" id="offered" value="Offered" {%
+                            if skill.skill_type=='Offered' %}checked{% endif %}>
+                        <label class="form-check-label" for="offered">I want to teach this skill (Offered)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="skill_type" id="wanted" value="Wanted" {% if
+                            skill.skill_type=='Wanted' %}checked{% endif %}>
+                        <label class="form-check-label" for="wanted">I want to learn this skill (Wanted)</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="class_code" class="form-label">Class Code / Zoom ID (Optional)</label>
+                    <input type="text" class="form-control" id="class_code" name="class_code"
+                        value="{{ skill.class_code }}" placeholder="e.g., CLASS-123, ZOOM-MEET-ID">
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description (Optional)</label>
+                    <textarea class="form-control" id="description" name="description"
+                        rows="3">{{ skill.description }}</textarea>
+                </div>
+                <div class="d-flex gap-2 justify-content-center mt-4">
+                    <button type="submit" class="btn btn-primary px-4">Update Skill</button>
+                    <a href="{{ url_for('skills.manage_skills') }}" class="btn btn-outline-secondary px-4">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card p-4 shadow-sm">
+            <h2 class="mb-4 text-center">Add a New Skill</h2>
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Skill Name</label>
+                    <input type="text" class="form-control" id="name" name="name"
+                        placeholder="e.g., Python Programming, Graphic Design" required>
+                </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    <select class="form-select" id="category" name="category" required>
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="Technical">Technical (Coding, Data, Engineering)</option>
+                        <option value="Creative">Creative (Design, Music, Arts)</option>
+                        <option value="Language">Language (English, Spanish, French)</option>
+                        <option value="Business">Business (Marketing, Sales, Finance)</option>
+                        <option value="Lifestyle">Lifestyle (Cooking, Fitness, DIY)</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Skill Type</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="skill_type" id="offered" value="Offered"
+                            checked>
+                        <label class="form-check-label" for="offered">I want to teach this skill (Offered)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="skill_type" id="wanted" value="Wanted">
+                        <label class="form-check-label" for="wanted">I want to learn this skill (Wanted)</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="class_code" class="form-label">Class Code / Zoom ID (Optional)</label>
+                    <input type="text" class="form-control" id="class_code" name="class_code"
+                        placeholder="e.g., CLASS-123, ZOOM-MEET-ID">
+                    <div class="form-text">Provide a code or ID that will be shared with the partner after exchange
+                        acceptance.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description (Optional)</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"
+                        placeholder="Briefly describe your expertise level or what you're looking for..."></textarea>
+                </div>
+                <div class="d-flex gap-2 justify-content-center mt-4">
+                    <button type="submit" class="btn btn-primary px-4">Add Skill</button>
+                    <a href="{{ url_for('skills.manage_skills') }}" class="btn btn-outline-secondary px-4">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12 mb-4">
+        <h2>My Skill Exchanges</h2>
+    </div>
+
+    <!-- Received Requests Section -->
+    <div class="col-md-12 mb-5">
+        <div class="card p-4 shadow-sm">
+            <h4 class="mb-4"><i class="fas fa-inbox text-primary me-2"></i>Requests Received</h4>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Sender</th>
+                            <th>Offered Skill</th>
+                            <th>Wanted Skill</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if received_requests %}
+                        {% for req in received_requests %}
+                        <tr>
+                            <td>
+                                <div class="fw-bold">{{ req.sender.username }}</div>
+                                <small class="text-muted">{{ req.date_sent.strftime('%b %d, %Y') }}</small>
+                            </td>
+                            <td>{{ req.skill_offered.name if req.skill_offered else "Not specified" }}</td>
+                            <td>{{ req.skill_wanted.name if req.skill_wanted else "Not specified" }}</td>
+                            <td>
+                                <span class="badge rounded-pill 
+                                            {% if req.status == 'Pending' %}bg-warning text-dark
+                                            {% elif req.status == 'Accepted' %}bg-success
+                                            {% else %}bg-danger{% endif %}">
+                                    {{ req.status }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if req.status == 'Pending' %}
+                                <div class="d-flex gap-2">
+                                    <form action="{{ url_for('exchanges.accept_request', request_id=req.id) }}"
+                                        method="POST">
+                                        <button type="submit" class="btn btn-sm btn-success">Accept</button>
+                                    </form>
+                                    <form action="{{ url_for('exchanges.reject_request', request_id=req.id) }}"
+                                        method="POST">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Reject</button>
+                                    </form>
+                                </div>
+                                {% elif req.status == 'Accepted' %}
+                                <div class="p-2 bg-light border rounded shadow-sm">
+                                    <div class="mb-1"><strong class="text-success small"><i
+                                                class="fas fa-envelope me-1"></i>Gmail:</strong></div>
+                                    <div class="small mb-2 text-primary">{{ req.sender.email if req.sender else 'User
+                                        not found' }}</div>
+
+                                    <div class="mb-1"><strong class="text-success small"><i
+                                                class="fas fa-key me-1"></i>Class Code:</strong></div>
+                                    <div class="small fw-bold">{{ req.skill_offered.class_code if req.skill_offered and
+                                        req.skill_offered.class_code else 'None' }}</div>
+                                </div>
+                                {% else %}
+                                <span class="text-muted small">No actions available</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% if req.message %}
+                        <tr class="table-light">
+                            <td colspan="5">
+                                <small class="text-muted"><strong>Message:</strong> {{ req.message }}</small>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-muted">No requests received yet.</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sent Requests Section -->
+    <div class="col-md-12">
+        <div class="card p-4 shadow-sm">
+            <h4 class="mb-4"><i class="fas fa-paper-plane text-secondary me-2"></i>Requests Sent</h4>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Receiver</th>
+                            <th>Offered Skill</th>
+                            <th>Wanted Skill</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if sent_requests %}
+                        {% for req in sent_requests %}
+                        <tr>
+                            <td>
+                                <div class="fw-bold">{{ req.receiver.username }}</div>
+                                <small class="text-muted">{{ req.date_sent.strftime('%b %d, %Y') }}</small>
+                            </td>
+                            <td>{{ req.skill_offered.name if req.skill_offered else "Not specified" }}</td>
+                            <td>{{ req.skill_wanted.name if req.skill_wanted else "Not specified" }}</td>
+                            <td>
+                                <span class="badge rounded-pill 
+                                            {% if req.status == 'Pending' %}bg-warning text-dark
+                                            {% elif req.status == 'Accepted' %}bg-success
+                                            {% else %}bg-danger{% endif %}">
+                                    {{ req.status }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if req.status == 'Pending' %}
+                                <form action="{{ url_for('exchanges.cancel_request', request_id=req.id) }}"
+                                    method="POST">
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary"
+                                        onclick="return confirm('Are you sure you want to cancel this request?')">Cancel</button>
+                                </form>
+                                {% elif req.status == 'Accepted' %}
+                                <div class="p-2 bg-light border rounded shadow-sm">
+                                    <div class="mb-1"><strong class="text-success small"><i
+                                                class="fas fa-envelope me-1"></i>Gmail:</strong></div>
+                                    <div class="small mb-2 text-primary">{{ req.receiver.email if req.receiver else
+                                        'User not found' }}</div>
+
+                                    <div class="mb-1"><strong class="text-success small"><i
+                                                class="fas fa-key me-1"></i>Class Code:</strong></div>
+                                    <div class="small fw-bold">{{ req.skill_wanted.class_code if req.skill_wanted and
+                                        req.skill_wanted.class_code else 'None' }}</div>
+                                </div>
+                                {% else %}
+                                <span class="text-muted small">Processed</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-muted">No requests sent yet. Start exploring to
+                                find skills!</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

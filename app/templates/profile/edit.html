@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card p-4 shadow-sm">
+            <h2 class="mb-4 text-center">Edit Your Profile</h2>
+            <form method="POST" enctype="multipart/form-data">
+                <div class="mb-3 text-center">
+                    <img src="{{ url_for('static', filename='profile_pics/' + current_user.profile_pic) }}" class="rounded-circle mb-3 shadow-sm" style="width: 125px; height: 125px; object-fit: cover;">
+                    <div class="mb-3">
+                        <label for="picture" class="form-label">Update Profile Picture</label>
+                        <input class="form-control" type="file" id="picture" name="picture" accept="image/*">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ current_user.name }}"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label for="bio" class="form-label">Bio</label>
+                    <textarea class="form-control" id="bio" name="bio" rows="4"
+                        placeholder="Tell us about yourself, your experience, and what you're passionate about...">{{ current_user.bio }}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location (Optional)</label>
+                    <input type="text" class="form-control" id="location" name="location"
+                        value="{{ current_user.location }}" placeholder="e.g., Mumbai, India">
+                </div>
+                <div class="mb-3">
+                    <label for="contact_info" class="form-label">Contact/Meeting Info (Optional)</label>
+                    <input type="text" class="form-control" id="contact_info" name="contact_info"
+                        value="{{ current_user.contact_info }}"
+                        placeholder="e.g., yourname@email.com, https://zoom.us/j/12345...">
+                    <div class="form-text">This will only be shared with users after you accept an exchange.</div>
+                </div>
+                <div class="d-flex gap-2 justify-content-center mt-4">
+                    <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+                    <a href="{{ url_for('profile.view_profile', username=current_user.username) }}"
+                        class="btn btn-outline-secondary px-4">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

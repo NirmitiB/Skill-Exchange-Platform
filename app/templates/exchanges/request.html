@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card p-4 shadow-sm">
+            <h2 class="mb-4 text-center">Send Exchange Request to {{ receiver.username }}</h2>
+            <form method="POST">
+                <div class="mb-4">
+                    <label for="skill_offered_id" class="form-label">What skill will you offer to {{ receiver.username }}?</label>
+                    <select class="form-select" id="skill_offered_id" name="skill_offered_id" required>
+                        <option value="" disabled selected>Select a skill you offer</option>
+                        {% if my_offered_skills %}
+                            {% for skill in my_offered_skills %}
+                                <option value="{{ skill.id }}">{{ skill.name }} ({{ skill.category }})</option>
+                            {% endfor %}
+                        {% else %}
+                            <option value="" disabled>You haven't added any offered skills yet.</option>
+                        {% endif %}
+                    </select>
+                    {% if not my_offered_skills %}
+                        <small class="text-danger">Please <a href="{{ url_for('skills.add_skill') }}">add an offered skill</a> before sending a request.</small>
+                    {% endif %}
+                </div>
+
+                <div class="mb-4">
+                    <label for="skill_wanted_id" class="form-label">What skill do you want from {{ receiver.username }}?</label>
+                    <select class="form-select" id="skill_wanted_id" name="skill_wanted_id" required>
+                        <option value="" disabled selected>Select a skill they offer</option>
+                        {% if receiver_offered_skills %}
+                            {% for skill in receiver_offered_skills %}
+                                <option value="{{ skill.id }}">{{ skill.name }} ({{ skill.category }})</option>
+                            {% endfor %}
+                        {% else %}
+                            <option value="" disabled>{{ receiver.username }} hasn't added any offered skills yet.</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="message" class="form-label">Message (Optional)</label>
+                    <textarea class="form-control" id="message" name="message" rows="3" placeholder="Tell {{ receiver.username }} why you'd like to exchange skills..."></textarea>
+                </div>
+
+                <div class="d-flex gap-2 justify-content-center mt-4">
+                    <button type="submit" class="btn btn-primary px-4" {% if not my_offered_skills %}disabled{% endif %}>Send Request</button>
+                    <a href="{{ url_for('profile.view_profile', username=receiver.username) }}" class="btn btn-outline-secondary px-4">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

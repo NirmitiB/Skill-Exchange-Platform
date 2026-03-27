@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="hero-section text-center py-5">
+    <div class="container py-5">
+        <h1 class="display-4 fw-bold mb-4">Exchange Skills, Grow Together</h1>
+        <p class="lead mb-5 text-secondary">A community-driven platform where you can trade your expertise for something new. No money involved, just pure learning and collaboration.</p>
+        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg px-4 gap-3">Get Started</a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary btn-lg px-4">Login</a>
+        </div>
+    </div>
+</div>
+
+<div class="features-section py-5">
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="feature col text-center">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3 bg-primary text-white rounded-circle p-3">
+                <i class="fas fa-search"></i>
+            </div>
+            <h3>Discover Skills</h3>
+            <p>Find people who offer the skills you want to learn, from programming to painting.</p>
+        </div>
+        <div class="feature col text-center">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3 bg-primary text-white rounded-circle p-3">
+                <i class="fas fa-handshake"></i>
+            </div>
+            <h3>Exchange & Learn</h3>
+            <p>Send requests to swap your skills. Teach what you know and learn what you don't.</p>
+        </div>
+        <div class="feature col text-center">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3 bg-primary text-white rounded-circle p-3">
+                <i class="fas fa-users"></i>
+            </div>
+            <h3>Build Community</h3>
+            <p>Connect with like-minded individuals and expand your professional network.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
