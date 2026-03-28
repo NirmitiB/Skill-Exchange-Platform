@@ -37,4 +37,21 @@ def create_app(config_class=Config):
     with app.app_context():
         db.create_all()
 
+    # Error Handlers
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('errors/404.html'), 404
+
+    @app.errorhandler(500)
+    def internal_server_error(e):
+        import traceback
+        print("--- GLOBAL 500 ERROR ---")
+        traceback.print_exc()
+        print("------------------------")
+        return render_template('errors/500.html'), 500
+
+    @app.errorhandler(403)
+    def forbidden(e):
+        return render_template('errors/403.html'), 403
+
     return app

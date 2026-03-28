@@ -2,7 +2,7 @@
 {% block content %}
 <div class="row">
     <div class="col-md-8">
-        <h2 class="mb-4">Welcome back, {{ current_user.name }}!</h2>
+        <h2 class="mb-4">Welcome back, {{ current_user.name if current_user.is_authenticated else 'User' }}!</h2>
 
         <!-- AI-Powered Recommended Users -->
         <div class="card p-4 mb-4 border-primary">
@@ -15,10 +15,20 @@
             {% if recommended_users %}
             <div class="row row-cols-1 row-cols-md-2 g-3">
                 {% for item in recommended_users %}
+                {% if item.user %}
                 <div class="col">
                     <div class="card h-100 border p-3">
                         <div class="d-flex align-items-center mb-2">
-                            <img src="{{ url_for('static', filename='profile_pics/' + item.user.profile_pic) }}" class="rounded-circle me-3 shadow-sm" style="width: 45px; height: 45px; object-fit: cover;">
+                            {% if item.user.profile_pic %}
+                            <img src="{{ url_for('static', filename='profile_pics/' + item.user.profile_pic) }}"
+                                class="rounded-circle me-3 shadow-sm"
+                                style="width: 45px; height: 45px; object-fit: cover;">
+                            {% else %}
+                            <div class="bg-primary text-white rounded-circle me-3 d-flex align-items-center justify-content-center"
+                                style="width: 45px; height: 45px;">
+                                {{ item.user.username[0].upper() if item.user.username else '?' }}
+                            </div>
+                            {% endif %}
                             <h5 class="mb-0">{{ item.user.username }}</h5>
                         </div>
                         <p class="small text-muted mb-2">
@@ -35,6 +45,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
                 {% endfor %}
             </div>
             {% else %}
@@ -51,8 +62,13 @@
                 {% for ex in active_exchanges %}
                 <li class="list-group-item d-flex justify-content-between align-items-center py-3">
                     <div>
-                        <h6 class="mb-1">Exchange with {{ ex.receiver.username if ex.sender_id == current_user.id else
-                            ex.sender.username }}</h6>
+                        <h6 class="mb-1">Exchange with
+                            {% if ex.sender_id == current_user.id %}
+                            {{ ex.receiver.username if ex.receiver else 'Deleted User' }}
+                            {% else %}
+                            {{ ex.sender.username if ex.sender else 'Deleted User' }}
+                            {% endif %}
+                        </h6>
                         <p class="small text-muted mb-0">Started on {{ ex.date_sent.strftime('%b %d, %Y') }}</p>
                     </div>
                     <span class="badge bg-success rounded-pill">Active</span>
@@ -71,10 +87,11 @@
             <h4 class="mb-3"><i class="fas fa-bell text-primary me-2"></i>Pending Requests</h4>
             {% if pending_requests %}
             {% for req in pending_requests %}
+            {% if req and req.sender %}
             <div class="border-bottom pb-3 mb-3">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <h6 class="mb-0">{{ req.sender.username }}</h6>
+                        <h6 class="mb-0">{{ req.sender.username if req.sender else 'Deleted User' }}</h6>
                         <p class="small text-muted mb-2">wants to exchange skills</p>
                     </div>
                     <span class="badge bg-warning text-dark">New</span>
@@ -90,6 +107,7 @@
                     </form>
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
             <a href="{{ url_for('exchanges.list_exchanges') }}"
                 class="btn btn-link btn-sm p-0 text-decoration-none w-100 text-center">View all requests</a>

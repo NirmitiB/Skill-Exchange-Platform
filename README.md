@@ -54,7 +54,7 @@ pip install -r requirements.txt
 
 ---
 
-### 4. (Optional) Seed the Database
+### 4. Seed the Database
 
 This step adds sample users and skills for testing:
 

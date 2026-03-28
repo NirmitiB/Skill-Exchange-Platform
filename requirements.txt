@@ -6,3 +6,5 @@ scikit-learn
 numpy
 python-dotenv==1.0.0
 Pillow
+gunicorn
+psycopg2-binary

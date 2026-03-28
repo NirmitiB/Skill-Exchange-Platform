@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Database
+instance/
+*.db
+
+# Static files
+app/static/profile_pics/*
+!app/static/profile_pics/default.jpg
+
+# OS
+.DS_Store
+Thumbs.db

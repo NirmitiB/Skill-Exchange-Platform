@@ -36,18 +36,25 @@ def view_profile(username):
 @profile.route("/profile/edit", methods=['GET', 'POST'])
 @login_required
 def edit_profile():
-    if request.method == 'POST':
-        # Check if picture was uploaded
-        if 'picture' in request.files and request.files['picture'].filename != '':
-            picture_file = save_picture(request.files['picture'])
-            current_user.profile_pic = picture_file
-        current_user.name = request.form.get('name')
-        current_user.bio = request.form.get('bio')
-        current_user.location = request.form.get('location')
-        current_user.contact_info = request.form.get('contact_info')
-        
-        db.session.commit()
-        flash('Your profile has been updated!', 'success')
-        return redirect(url_for('profile.view_profile', username=current_user.username))
-        
-    return render_template('profile/edit.html', title='Edit Profile')
+    try:
+        if request.method == 'POST':
+            # Check if picture was uploaded
+            if 'picture' in request.files and request.files['picture'].filename != '':
+                picture_file = save_picture(request.files['picture'])
+                current_user.profile_pic = picture_file
+            current_user.name = request.form.get('name')
+            current_user.bio = request.form.get('bio')
+            current_user.location = request.form.get('location')
+            current_user.contact_info = request.form.get('contact_info')
+            
+            db.session.commit()
+            flash('Your profile has been updated!', 'success')
+            return redirect(url_for('profile.view_profile', username=current_user.username))
+            
+        return render_template('profile/edit.html', title='Edit Profile')
+    except Exception as e:
+        print(f"PROFILE EDIT ERROR: {e}")
+        import traceback
+        traceback.print_exc()
+        db.session.rollback()
+        return f"An internal error occurred during profile update: {e}", 500

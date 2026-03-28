@@ -25,11 +25,13 @@
                         {% for req in received_requests %}
                         <tr>
                             <td>
-                                <div class="fw-bold">{{ req.sender.username }}</div>
+                                <div class="fw-bold">{{ req.sender.username if req.sender else 'Deleted User' }}</div>
                                 <small class="text-muted">{{ req.date_sent.strftime('%b %d, %Y') }}</small>
                             </td>
-                            <td>{{ req.skill_offered.name if req.skill_offered else "Not specified" }}</td>
-                            <td>{{ req.skill_wanted.name if req.skill_wanted else "Not specified" }}</td>
+                            <td>{{ req.skill_offered.name if req.skill_offered and req.skill_offered.name else "Not
+                                specified" }}</td>
+                            <td>{{ req.skill_wanted.name if req.skill_wanted and req.skill_wanted.name else "Not
+                                specified" }}</td>
                             <td>
                                 <span class="badge rounded-pill 
                                             {% if req.status == 'Pending' %}bg-warning text-dark
@@ -106,11 +108,12 @@
                         {% for req in sent_requests %}
                         <tr>
                             <td>
-                                <div class="fw-bold">{{ req.receiver.username }}</div>
+                                <div class="fw-bold">{{ req.receiver.username if req.receiver else 'Deleted User' }}
+                                </div>
                                 <small class="text-muted">{{ req.date_sent.strftime('%b %d, %Y') }}</small>
                             </td>
-                            <td>{{ req.skill_offered.name if req.skill_offered else "Not specified" }}</td>
-                            <td>{{ req.skill_wanted.name if req.skill_wanted else "Not specified" }}</td>
+                            <td>{{ req.skill_offered.name if req.skill_offered and req.skill_offered.name else "Not specified" }}</td>
+                            <td>{{ req.skill_wanted.name if req.skill_wanted and req.skill_wanted.name else "Not specified" }}</td>
                             <td>
                                 <span class="badge rounded-pill 
                                             {% if req.status == 'Pending' %}bg-warning text-dark
